@@ -1,7 +1,8 @@
 from random import randint
 import random
 import time
-from delet_me import calfitness
+from test_sys import calfitness
+
 value = [1]*100 + [0]*400
 queries = 0
 
@@ -12,7 +13,7 @@ class Population:
         self.max_populationation = max_populationation
 
         self.population = []
-        for i in range(max_populationation):
+        for _ in range(max_populationation):
             self.population.append(Individual(individual_length))
 
         self.mating_pool = []

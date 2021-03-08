@@ -4,7 +4,6 @@ from random import randint
 import random
 
 value = [1]*500
-queries = 0
 
 class Population:
     def __init__(self, individual_length, mutation_rate, max_populationation):
@@ -16,13 +15,11 @@ class Population:
         for _ in range(max_populationation):
             self.population.append(Individual(individual_length))
 
-        self.mating_pool = []
         self.generations = 1
 
     def get_fitness(self, last_individual): #here last individual means the one with 
                                         #last query 
         global value    
-        global queries
         for i in range(len(self.population)):
             different_genes_indices = self.population[i].compare_genes(last_individual)
             
@@ -34,16 +31,9 @@ class Population:
 
             if len(different_genes_indices) != 0 :
                 value , fitness = calfitness(value, different_genes_indices)
-                queries += 1
-                # print()
-                # fitness = int(input())                    
                 if fitness == self.individual_length:
                     print('\nSolution found')
                     return True
-            # and queries <= (3*self.individual_length)/4 +99
-            # elif queries > (3*self.individual_length)/4 +99:
-            #     print(queries)
-            #     return False
             else:
                 fitness = last_individual.fitness
             fitness = 2** fitness 

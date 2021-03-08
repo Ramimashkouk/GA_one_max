@@ -2,7 +2,7 @@ from random import randint
 import random
 
 
-perfect = [0]*100
+perfect = [0]*500
 # fitness = 2
 
 def flip_value(value, lst_of_indices):

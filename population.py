@@ -1,8 +1,9 @@
 from individual import Individual
 from test_sys import calfitness
 from random import randint
+import random
 
-value = [1]*100
+value = [1]*500
 queries = 0
 
 class Population:
@@ -45,31 +46,42 @@ class Population:
             #     return False
             else:
                 fitness = last_individual.fitness
-            fitness = 2 ** fitness 
-            fitness = fitness * 100 / 2 ** self.individual_length 
+            fitness = 2** fitness 
+            fitness = fitness * 100 / 2 ** self.individual_length
             self.population[i].set_fitness(fitness)
             last_individual = self.population[i]
+        
+        self.max_fitness = max([ind.fitness for ind in self.population])
+        
+        fitness_sum = sum([ind.fitness for ind in self.population])
+        self.probabilities = [ind.fitness / fitness_sum for ind in self.population]
+        
         return last_individual
 
-    def natural_selection(self):
-        self.mating_pool =[]
-        maxfitness = max([ind.fitness for ind in self.population])
-        for ind in self.population:
-            # if maxfitness == 0: maxfitness = 1
-            fitness = int(ind.fitness * 100 / maxfitness)
-            self.mating_pool += [ind]* fitness
-
     def go_and_fuck(self):
-        for i in range(len(self.population)):
-            partner1 = self.mating_pool[randint(0, len(self.mating_pool)-1)]
-            partner2 = self.mating_pool[randint(0, len(self.mating_pool)-1)]
+        new_population = []
+        for _ in range(len(self.population)):
+            partner1 = self.accept_reject()
+            partner2 = self.accept_reject()
             child = partner1.mate(partner2)
             child.mutate(self.mutation_rate)
-            self.population[i] = child
+            new_population.append(child)
+
+        self.population = new_population
         self.generations += 1
 
+    def accept_reject(self):
+        # partner = self.population[randint(0, len(self.population)-1)]
+        index = -1
+        rand = random.uniform(0, 1)
+
+        while rand > 0:
+            index += 1
+            rand -= self.probabilities[index]
+        return self.population[index]
+
     def get_best(self):
-        return max([ind.fitness for ind in self.population])
+        return self.max_fitness
     
     def display(self):
         for ind in self.population[0:25]:

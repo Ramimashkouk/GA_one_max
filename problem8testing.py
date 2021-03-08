@@ -7,7 +7,7 @@ start_time = time.time()
 target_length = int(inp.split()[0])
 first_fitness = int(inp.split()[1])
 mutation_rate = 0.009
-max_populationation = 800 # it should depend on target_length I think
+max_populationation = 600 # it should depend on target_length I think
 
 first_individual = Individual(target_length)
 first_individual.set_fitness(first_fitness)
@@ -28,9 +28,6 @@ while True:
 
     #display the population
     # population.display()
-
-    #fill the mating pool
-    population.natural_selection()
 
     #generate new generation
     population.go_and_fuck()

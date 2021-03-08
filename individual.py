@@ -1,20 +1,15 @@
 from random import randint 
 import random
+import numpy as np
 
 class Individual:
     def __init__(self, individual_length):
-        self.genes = []
-        for _ in range(individual_length):
-            self.genes.append(randint(0,1))
+        self.genes = np.empty(individual_length, int)
+        for i in range(individual_length):
+            self.genes[i] = randint(0,1)
     def set_fitness(self, fitness):
         self.fitness = fitness
 
-    def compare_genes(self, individual):
-        different_genes_indices = []
-        for i in range(len(self.genes)):
-            if self.genes[i] != individual.genes[i]:
-                different_genes_indices.append(i)
-        return [element+1 for element in different_genes_indices]
 
     def mate(self, partner):
         child = Individual(len(self.genes))
